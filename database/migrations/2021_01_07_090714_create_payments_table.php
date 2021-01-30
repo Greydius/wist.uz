@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateClassroomsTable extends Migration
+class CreatePaymentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,14 @@ class CreateClassroomsTable extends Migration
      */
     public function up()
     {
-        Schema::create('classrooms', function (Blueprint $table) {
+        Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('school_year_id')
+            $table->foreignId('student_classroom_id')
                     ->constrained()
                     ->onDelete('cascade');
-            $table->unsignedTinyInteger("grade");
-            $table->char("symbol", 2);
-            $table->unsignedTinyInteger("limit");
+            $table->unsignedInteger('amount');
+            $table->enum('trimester', [1, 2, 3]);
+            $table->string('comment')->default('');
             $table->timestamps();
         });
     }
@@ -32,6 +32,6 @@ class CreateClassroomsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('classrooms');
+        Schema::dropIfExists('payments');
     }
 }

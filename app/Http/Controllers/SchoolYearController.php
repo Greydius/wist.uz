@@ -2,57 +2,46 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\Builder;
+use App\Http\Requests\SchoolYearRequest as Request;
 
-use App\Http\Requests\ClassroomRequest;
+use App\Models\SchoolYear as Model;
 
-use App\Models\Classroom as Model;
-
-class ClassroomController extends Controller
+class SchoolYearController extends Controller
 {
-    public function index(Request $request)
+
+    public function index()
     {
-        $rows = new Model;
-
-        $student_id = $request->student_id;
-        if($student_id) {
-            $rows = $rows->whereHas('students', function(Builder $query) use($student_id) {
-                return $query->where('students.id', $student_id);
-            });
-        }
-
-        $rows = $rows->orderBy('grade', 'desc')->get();
-
+        $rows = Model::orderBy('first_trimester_start_date', 'desc')->get();
+ 
         return response()->json([
             'success' => true,
             'data' => $rows
         ]);
     }
-
+ 
     public function show($id)
     {
         $row = Model::find($id);
-
+ 
         if (!$row) {
             return response()->json([
                 'success' => false,
                 'message' => 'Не найдено'
             ], 400);
         }
-
+ 
         return response()->json([
             'success' => true,
             'data' => $row
-        ]);
+        ], 400);
     }
-
-    public function store(ClassroomRequest $request)
+ 
+    public function store(Request $request)
     {
         $validatedData = $request->validated();
-
+ 
         $row = Model::create($validatedData);
-
+ 
         if ($row)
             return response()->json([
                 'success' => true,
@@ -64,11 +53,11 @@ class ClassroomController extends Controller
                 'message' => 'Не добавлено'
             ], 500);
     }
-
-    public function update(ClassroomRequest $request, $id)
+ 
+    public function update(Request $request, $id)
     {
         $row = Model::find($id);
-
+ 
         if (!$row) {
             return response()->json([
                 'success' => false,
@@ -79,7 +68,7 @@ class ClassroomController extends Controller
         $validatedData = $request->validated();
 
         $updated = $row->fill($validatedData)->save();
-
+ 
         if ($updated)
             return response()->json([
                 'success' => true,
@@ -91,18 +80,18 @@ class ClassroomController extends Controller
                 'message' => 'Не возможно обновить'
             ], 500);
     }
-
+ 
     public function destroy($id)
     {
         $row = Model::find($id);
-
+ 
         if (!$row) {
             return response()->json([
                 'success' => false,
                 'message' => 'Не найдено'
             ], 400);
         }
-
+ 
         if ($row->delete()) {
             return response()->json([
                 'success' => true

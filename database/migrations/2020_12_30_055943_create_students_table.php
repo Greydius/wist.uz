@@ -15,6 +15,15 @@ class CreateStudentsTable extends Migration
     {
         Schema::create('students', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->date('birthdate');
+            $table->date('visit_date')->nullable();
+            $table->enum('application', ['unfilled', 'filled', 'filled-online'])->default('unfilled');
+            $table->date('application_date')->nullable();
+            $table->string('assessment')->default('');
+            $table->date('assessment_date')->nullable();
+            $table->enum('contract', ['ungiven', 'given', 'done', 'cancelled'])->default('ungiven');
+            $table->enum('payment', ['unpaid', 'paid', 'paid-partly', 'cancelled'])->default('unpaid');
             $table->timestamps();
         });
     }
