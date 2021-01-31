@@ -50,7 +50,7 @@ class Classroom extends Model
      */
     public function students()
     {
-        return $this->belongsToMany(Student::class, 'student_classrooms')->using(StudentClassroom::class)->withTimestamps();
+        return $this->belongsToMany(Student::class, 'student_classrooms')->using(StudentClassroom::class)->withTimestamps()->withPivot('id','comment', 'amount');
     }
 
     /**
@@ -70,6 +70,6 @@ class Classroom extends Model
      */
     public function getYearAttribute()
     {
-        return $this->school_year->first_trimester_start_date->format('d.m.Y');
+        return $this->school_year->first_trimester_start_date->format('Y-m-d');
     }
 }

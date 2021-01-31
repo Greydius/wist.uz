@@ -22,7 +22,7 @@ class CreateStudentClassroomsTable extends Migration
                     ->constrained()
                     ->onDelete('cascade');
             $table->unsignedInteger('amount');
-            $table->string('comment')->default('');
+            $table->string('comment')->default('')->nullable();
             $table->timestamps();
         });
     }

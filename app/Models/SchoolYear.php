@@ -29,12 +29,12 @@ class SchoolYear extends Model
      * @var array
      */
     protected $casts = [
-        'first_trimester_start_date' => 'datetime:d.m.Y',
-        'first_trimester_end_date' => 'datetime:d.m.Y',
-        'second_trimester_start_date' => 'datetime:d.m.Y',
-        'second_trimester_end_date' => 'datetime:d.m.Y',
-        'third_trimester_start_date' => 'datetime:d.m.Y',
-        'third_trimester_end_date' => 'datetime:d.m.Y',
+        'first_trimester_start_date' => 'datetime:Y-m-d',
+        'first_trimester_end_date' => 'datetime:Y-m-d',
+        'second_trimester_start_date' => 'datetime:Y-m-d',
+        'second_trimester_end_date' => 'datetime:Y-m-d',
+        'third_trimester_start_date' => 'datetime:Y-m-d',
+        'third_trimester_end_date' => 'datetime:Y-m-d',
 
     ];
 

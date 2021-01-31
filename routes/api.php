@@ -7,6 +7,7 @@ use App\Http\Controllers\PassportAuthController;
 use App\Http\Controllers\SchoolYearController;
 use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\StudentClassroomController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +35,15 @@ Route::resource('students', StudentController::class);
 
 
 Route::prefix('students')->group(function () {
+    Route::post('/{id}/classrooms/{classroom_id}', [StudentController::class, 'attachClassroom']);
+    Route::put('/{id}/classrooms/{classroom_id}', [StudentController::class, 'updateAttachedClassroom']);
+    Route::delete('/{id}/classrooms/{classroom_id}', [StudentController::class, 'detachClassroom']);
+});
 
-    // Route::get('/{id}/classrooms', [StudentController::class, 'classrooms']);
+Route::prefix('student-classrooms')->group(function () {
+    Route::get('/{id}', [StudentClassroomController::class, 'show']);
+    Route::get('/{id}/invoice', [StudentClassroomController::class, 'invoice']);
+    Route::post('/{id}/payments', [StudentClassroomController::class, 'addPayment']);
+    Route::put('/{id}/payments/{payment_id}', [StudentClassroomController::class, 'updatePayment']);
+    Route::delete('/{id}/payments/{payment_id}', [StudentClassroomController::class, 'deletePayment']);
 });

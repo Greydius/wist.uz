@@ -20,7 +20,7 @@ class CreatePaymentsTable extends Migration
                     ->onDelete('cascade');
             $table->unsignedInteger('amount');
             $table->enum('trimester', [1, 2, 3]);
-            $table->string('comment')->default('');
+            $table->string('comment')->default('')->nullable();
             $table->timestamps();
         });
     }

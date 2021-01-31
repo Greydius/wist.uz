@@ -35,11 +35,11 @@ class Student extends Model
      * @var array
      */
     protected $casts = [
-        'birthdate' => 'datetime:d.m.Y',
-        'visit_date' => 'datetime:d.m.Y',
-        'application_date' => 'datetime:d.m.Y',
-        'assessment_date' => 'datetime:d.m.Y',
-        'school_start_date' => 'datetime:d.m.Y',
+        'birthdate' => 'datetime:Y-m-d',
+        'visit_date' => 'datetime:Y-m-d',
+        'application_date' => 'datetime:Y-m-d',
+        'assessment_date' => 'datetime:Y-m-d',
+        'school_start_date' => 'datetime:Y-m-d',
     ];
 
     /**
@@ -54,7 +54,7 @@ class Student extends Model
      */
     public function classrooms()
     {
-        return $this->belongsToMany(Classroom::class, 'student_classrooms')->using(StudentClassroom::class)->withTimestamps()->withPivot('comment', 'amount')->orderBy('grade', 'desc');
+        return $this->belongsToMany(Classroom::class, 'student_classrooms')->using(StudentClassroom::class)->withTimestamps()->withPivot('id','comment', 'amount')->orderBy('grade', 'desc');
     }
 
     /**

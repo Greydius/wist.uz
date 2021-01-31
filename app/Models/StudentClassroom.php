@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class StudentClassroom extends Pivot
 {
+    protected $table = 'student_classrooms';
     /**
      * Indicates if the IDs are auto-incrementing.
      *
@@ -31,6 +32,22 @@ class StudentClassroom extends Pivot
      */
     public function payments()
     {
-        return $this->hasMany(Payment::class);
+        return $this->hasMany(Payment::class, 'student_classroom_id');
+    }
+
+    /**
+     * Get the student for the student classroom.
+     */
+    public function student()
+    {
+        return $this->belongsTo(Student::class);
+    }
+
+    /**
+     * Get the classroom for the student classroom.
+     */
+    public function classroom()
+    {
+        return $this->belongsTo(Classroom::class);
     }
 }

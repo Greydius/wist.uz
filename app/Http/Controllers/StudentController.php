@@ -33,7 +33,7 @@ class StudentController extends Controller
             'basic' => ['id'],
             'like' => ['name'],
             'variant' => ['application', 'assessment', 'contract', 'payment'],
-            'daterange' => ['birthdate', 'visit_date', 'application_date', 'assessment_date', 'school_start_date'],
+            'daterange' => ['birthdate', 'visit_date', 'application_date', 'assessment_date'],
         ];
 
         foreach($filters['basic'] as $filter) {
@@ -59,7 +59,7 @@ class StudentController extends Controller
                 $from = date($request->{$filter}[0]);
                 $to = date($request->{$filter}[1]);
 
-                $rows = $rows::whereBetween($filter, [$from, $to]);
+                $rows = $rows->whereBetween($filter, [$from, $to]);
             }
         }
 
@@ -103,6 +103,64 @@ class StudentController extends Controller
             return response()->json([
                 'success' => true,
                 'data' => $row
+            ]);
+        else
+            return response()->json([
+                'success' => false,
+                'message' => 'Не добавлено'
+            ], 500);
+    }
+
+    public function attachClassroom(Request $request, $id, $classroom_id)
+    {
+        $validatedData = $request->validate([
+            'amount' => 'required|integer',
+            'comment' => 'nullable|string'
+        ]);
+
+        $row = Model::find($id);
+
+        try {
+            $row->classrooms()->attach($classroom_id, $validatedData);
+
+            return response()->json([
+                'success' => true
+            ]);
+        } catch(Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function updateAttachedClassroom(Request $request, $id, $classroom_id)
+    {
+        $validatedData = $request->validate([
+            'amount' => 'required|integer',
+            'comment' => 'nullable|string'
+        ]);
+
+        $row = Model::find($id);
+
+        if ($row->classrooms()->updateExistingPivot($classroom_id, $validatedData))
+            return response()->json([
+                'success' => true
+            ]);
+        else
+            return response()->json([
+                'success' => false,
+                'message' => 'Не добавлено'
+            ], 500);
+    }
+
+    public function detachClassroom(Request $request, $id, $classroom_id)
+    {
+        $row = Model::find($id);
+
+        if ($row->classrooms()->detach($classroom_id))
+            return response()->json([
+                'success' => true
             ]);
         else
             return response()->json([
