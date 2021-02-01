@@ -25,7 +25,6 @@ class Student extends Model
         'assessment',
         'assessment_date',
         'contract',
-        'school_start_date',
         'payment'
     ];
 

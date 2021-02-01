@@ -47,6 +47,23 @@ class ClassroomController extends Controller
         ]);
     }
 
+    public function students($id)
+    {
+        $row = Model::find($id);
+
+        if (!$row) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Не найдено'
+            ], 400);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $row->students
+        ]);
+    }
+
     public function store(ClassroomRequest $request)
     {
         $validatedData = $request->validated();

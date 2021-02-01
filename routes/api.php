@@ -33,6 +33,9 @@ Route::resource('classrooms', ClassroomController::class);
 
 Route::resource('students', StudentController::class);
 
+Route::prefix('classrooms')->group(function () {
+    Route::get('/{id}/students', [ClassroomController::class, 'students']);
+});
 
 Route::prefix('students')->group(function () {
     Route::post('/{id}/classrooms/{classroom_id}', [StudentController::class, 'attachClassroom']);
