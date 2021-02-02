@@ -35,7 +35,7 @@ class StudentClassroomController extends Controller
             'student_classroom' => $studentClassroom,
             'trimesters' => $request->trimesters
         ]);
-        // return $pdf->download('invoice.pdf');
+        return $pdf->download('invoice.pdf');
 
         return view('invoices.student_classroom', [
             'student_classroom' => $studentClassroom,
